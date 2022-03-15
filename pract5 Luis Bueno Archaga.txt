@@ -1,0 +1,5 @@
+
+El cambio ha sido principalmente en el documento de "contacto.html" donde se ha añadido un botón que muestra lo introducido en el formulario de contactos.
+
+
+https://github.com/luisi73/practica5

@@ -1,60 +1,93 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Acerinox</title>
-        <link href="css/styles.css" rel="stylesheet" />
-    </head>
-    <body style="background-color:lightgrey;">
-      <h2 class="text-center">ACERINOX</h2><br>
-      <p class="text-center">
-        <a href="index.html">Pagina principal</a>       _       <a href="resultados.html">Resultados economicos</a>       _       <a href="acero.html">Metales principales</a>
-      </p>
-      <img src="https://www.acerinox.com/export/sites/acerinox/.content/galerias/galeria-fabricas/DSC_0088.jpg_225113365.jpg" alt="Acero" width="500" height="318"><br>
-      <h2 class="text-center">Contacto</h2>
-      <form class="text-center">
-      <label for="nombre">Nombre:</label><br>
-      <input type="text" id="nombre" name="nombre" value="Ramon"><br>
-      <label for="nombre">Apellido:</label><br>
-      <input type="text" id="apellido" name="apellido" value="Garcia"><br>
-      <label for="mail">Correo electrónico:</label><br>
-      <input type="text" id="mail" name="mail" value="ramon@gmail.com"><br>
-      <label for="num">Numero de telefono:</label><br>
-      <input type="number" id="num" name="num" value="632215295"><br>
-      <input type="checkbox" id="trato" name="trato" value="true">
-      <label for="trato"> He leido el contrato y acepto el tratamiento de mis datos. </label><br><br>
-      <input type="submit" id="submit" value="Submit"><br>
-      </form> 
 
-<p class="text-center">Nos pondremos en contacto lo antes posible.</p>
-    </body>
+<head>
+    <title>Acerinox</title>
+    <link href="css/styles.css" rel="stylesheet" />
+</head>
+
+<body style="background-color:lightgrey;">
+    <h2 class="text-center">ACERINOX</h2><br>
+    <p class="text-center">
+        <a href="index.html">Pagina principal</a> _ <a href="resultados.html">Resultados economicos</a> _ <a
+            href="acero.html">Metales principales</a>
+    </p>
+    <p class="text-center"> 
+        <img src="https://www.acerinox.com/export/sites/acerinox/.content/galerias/galeria-fabricas/DSC_0088.jpg_225113365.jpg" alt="Acero" width="500" height="318" ><br>
+</p>
+    <h2 class="text-center">Contacto</h2>
+    <form class="text-center">
+        <label for="nombre">Nombre:</label><br>
+        <input type="text" id="nombre" name="nombre" value="Ramon"><br>
+        <label for="nombre">Apellido:</label><br>
+        <input type="text" id="apellido" name="apellido" value="Garcia"><br>
+        <label for="mail">Correo electrónico:</label><br>
+        <input type="text" id="mail" name="mail" value="ramon@gmail.com"><br>
+        <label for="num">Numero de telefono:</label><br>
+        <input type="number" id="num" name="num" value="632215295"><br><br>
+        <input type="button" id="submit" value="Submit"><br>
+    </form>
+
+    <p class="text-center">Nos pondremos en contacto lo antes posible.</p>
+
+    <form class="text-center">
+        <input type="button" id="ver" value="Ver datos"><br>
+    </form>
+    <p class="text-center">Nombre:</p>
+    <p class="text-center" id="snombre"></p><br>
+    <p class="text-center">Apellido:</p>
+    <p class="text-center" id="sapellido"></p><br>
+    <p class="text-center">Correo:</p>
+    <p class="text-center" id="scorreo"></p><br>
+    <p class="text-center">Numero:</p>
+    <p class="text-center" id="snumero"></p><br><br>
+
+</body>
 <script>
     let submitButton = document.getElementById("submit");
-  const getDatosClientes = async ()=>{
-      let inputNombre = document.getElementById("nombre").value;
-      let inputApellido = document.getElementById("apellido").value;
-      let inputCorreo = document.getElementById("mail").value;
-      let inputNumero = document.getElementById("num").value;
-      let inputTrato = document.getElementById("trato").value;
-      
-      let request = await fetch("/clientes",{
-          method: "POST",
-          credentials: "same-origin",
-          headers:{
-              "Content-Type":"application/json",
-          },
-          body: JSON.stringify({
-              nombre: inputNombre,
-              apellido: inputApellido,
-              correo: inputCorreo,
-              numero: parseInt(inputNumero),
-              trato: Boolean(inputTrato),
-          }),
-      });
-      if(request.ok){
-          console.log(await request.json());
-      }
-  };
-  submitButton.addEventListener("click",getDatosClientes());
-  
+    let verButton = document.getElementById("ver");
+
+    submitButton.addEventListener("click", setDatosClientes = async () => {
+        let inputNombre = document.getElementById("nombre").value;
+        let inputApellido = document.getElementById("apellido").value;
+        let inputCorreo = document.getElementById("mail").value;
+        let inputNumero = document.getElementById("num").value;
+
+        let request = await fetch("/setclientes", {
+            method: "POST",
+            credentials: "same-origin",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                nombre: inputNombre,
+                apellido: inputApellido,
+                correo: inputCorreo,
+                numero: parseInt(inputNumero),
+            }),
+            dataType: "json",
+        });
+    });
+    verButton.addEventListener("click", getDatosClientes = async () => {
+        let get = await fetch("/getclientes", {
+            method: "GET",
+            credentials: "same-origin",
+            dataType: "json",
+        });
+        if (get.ok) {
+            var data = await get.json();
+            var nombreHtml = data.nombre;
+            var apellidoHtml = data.apellido;
+            var correoHtml = data.correo;
+            var numeroHtml = data.numero;
+            document.getElementById('snombre').innerHTML = nombreHtml;
+            document.getElementById('sapellido').innerHTML = apellidoHtml;
+            document.getElementById('scorreo').innerHTML = correoHtml;
+            document.getElementById('snumero').innerHTML = numeroHtml;
+
+        }
+    });
+
 </script>
+
 </html>
