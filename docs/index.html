@@ -172,4 +172,27 @@
         <script src="js/scripts.js"></script>
         <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
     </body>
+    <script>
+        const getDatosClientes = async ()=>{
+            let inputNombre = document.getElementById("textAddress").value;
+            let inputCorreo = document.getElementById("emailAddress").value;
+            let inputNumero = document.getElementById("numberAddress").value;
+            
+            let request = await fetch("/clientes",{
+                method: "POST",
+                credentials: "same-origin",
+                headers:{
+                    "Content-Type":"application/json",
+                },
+                body: JSON.stringify({
+                    nombre: inputNombre,
+                    correo:inputCorreo,
+                    numero:parseInt(inputNumero),
+                }),
+            });
+            if(request.ok){
+                console.log(await request.json());
+            }
+        };
+    </script>
 </html>
