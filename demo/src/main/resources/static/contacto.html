@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Acerinox</title>
+        <link href="css/styles.css" rel="stylesheet" />
+    </head>
+    <body style="background-color:lightgrey;">
+      <h2 class="text-center">ACERINOX</h2><br>
+      <p class="text-center">
+        <a href="index.html">Pagina principal</a>       _       <a href="resultados.html">Resultados económicos</a>       _       <a href="acero.html">Metales principales</a>
+      </p>
+      <img src="https://www.acerinox.com/export/sites/acerinox/.content/galerias/galeria-fabricas/DSC_0088.jpg_225113365.jpg" alt="Acero" width="500" height="318"><br>
+      <h2 class="text-center">Contacto</h2>
+      <form class="text-center">
+      <label for="nombre">Nombre:</label><br>
+      <input type="text" id="nombre" name="nombre" value="Ramon"><br>
+      <label for="nombre">Apellido:</label><br>
+      <input type="text" id="apellido" name="apellido" value="Garcia"><br>
+      <label for="mail">Correo electrónico:</label><br>
+      <input type="text" id="mail" name="mail" value="ramon@gmail.com"><br>
+      <label for="num">Número de teléfono:</label><br>
+      <input type="number" id="num" name="num" value="632215295"><br>
+      <input type="checkbox" id="trato" name="trato" value=True>
+      <label for="trato"> He leido el contrato y acepto el tratamiento de mis datos. </label><br><br>
+      <input type="submit" value="Submit"><br>
+      </form> 
+
+<p class="text-center">Nos pondremos en contacto lo antes posible.</p>
+    </body>
+<script>
+  const getDatosClientes = async ()=>{
+      let inputNombre = document.getElementById("nombre").value;
+      let inputApellido = document.getElementById("apellido").value;
+      let inputCorreo = document.getElementById("mail").value;
+      let inputNumero = document.getElementById("num").value;
+      let inputTrato = document.getElementById("trato").value;
+      
+      let request = await fetch("/clientes",{
+          method: "POST",
+          credentials: "same-origin",
+          headers:{
+              "Content-Type":"application/json",
+          },
+          body: JSON.stringify({
+              nombre: inputNombre,
+              apellido: inputApellido,
+              correo: inputCorreo,
+              numero: parseInt(inputNumero),
+              trato: Boolean(inputTrato),
+          }),
+      });
+      if(request.ok){
+          console.log(await request.json());
+      }
+  };
+</script>
+</html>
