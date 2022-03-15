@@ -1,4 +1,4 @@
-package com.example;
+package com.example.demo;
 
 public class Clientes {
     private String nombre;
